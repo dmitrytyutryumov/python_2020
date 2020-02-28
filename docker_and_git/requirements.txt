@@ -120,7 +120,7 @@ python-dateutil==2.7.3
 python-firebase==1.2
 python-libtorrent==1.1.11
 pytz==2017.3
-pyxdg==0.25
+pyxdg==0.26
 PyYAML==3.12
 rdp==0.8
 redis==2.10.6
