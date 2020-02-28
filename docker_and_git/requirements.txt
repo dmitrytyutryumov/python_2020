@@ -162,7 +162,7 @@ WeasyPrint==0.42
 webargs==4.1.0
 webencodings==0.5.1
 WebOb==1.7.3
-Werkzeug==0.12.2
+Werkzeug==0.15.3
 zipp==0.6.0
 zope.deprecation==4.3.0
 zope.interface==4.4.3
