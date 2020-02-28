@@ -121,7 +121,7 @@ python-firebase==1.2
 python-libtorrent==1.1.11
 pytz==2017.3
 pyxdg==0.25
-PyYAML==3.12
+PyYAML==5.1
 rdp==0.8
 redis==2.10.6
 repoze.lru==0.7
