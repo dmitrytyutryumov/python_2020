@@ -103,7 +103,29 @@ class TestBuiltIns(TestCase):
 		# методы
 		assert 'labore'.capitalize()[0] == multi_line.title()[97] == 'l'.upper() == 'L'
 		assert 'l' == 'L'.lower()
+		assert 'asdasd'.split('s') == ['a', 'da', 'd']
 
 		assert '/some/file/path'.replace('path', 'path.txt') == '/some/file/path.txt'
 		assert re.sub(r'^/[a-z]*/', '/home/', '/some/file/path') == '/home/file/path'
 		assert ''.join([i for i in multi_line if i == 'l']) == 'lllllllllllllllllllll'
+
+		#экранирование
+		'\s\t\n'
+
+	def test_lists(*args):
+		pass
+
+	def test_sets(*args):
+		pass
+
+	def tests_tuples(*args):
+		pass
+
+	def tests_dicts(*args):
+		pass
+
+	def test_bool(*args):
+		pass
+
+	def test_None(*args):
+		pass
