@@ -84,6 +84,10 @@ class TestBuiltIns(TestCase):
 		assert ('hey' ' ' 'students') == 'hey students'
 		assert 'hey' + ' ' + 'students' == 'hey students'
 		assert hey * 2 == 'heyhey'
+
+		# cравнение
+		assert 'hey' is 'hey'
+		assert hey == hey
 		assert (hey < students) == True
 
 		# форматирование строк
@@ -103,6 +107,3 @@ class TestBuiltIns(TestCase):
 		assert '/some/file/path'.replace('path', 'path.txt') == '/some/file/path.txt'
 		assert re.sub(r'^/[a-z]*/', '/home/', '/some/file/path') == '/home/file/path'
 		assert ''.join([i for i in multi_line if i == 'l']) == 'lllllllllllllllllllll'
-
-		assert 'hey' is 'hey'
-		assert hey == hey
