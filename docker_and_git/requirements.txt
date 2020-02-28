@@ -151,7 +151,7 @@ translationstring==1.3
 Twisted==18.9.0
 typing==3.7.4.1
 tzlocal==1.4
-urllib3==1.22
+urllib3==1.24.2
 venusian==1.1.0
 vine==1.3.0
 virtualenv==16.7.4
