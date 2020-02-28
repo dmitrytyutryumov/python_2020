@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  rabbitmq:
+    container_name: prj-rabbit
+    image: rabbitmq:3-management
+    ports:
+      - 5673:5672
+      - 15673:15672
+    volumes:
+      - /tmp/rabbit-prj:/home
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+    extra_hosts:
+      - "prj-rabbit-host:127.0.0.1"
+    restart: always
+    networks:
+      - prj-network
+
+  prj:
+    container_name: our_prj
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - /data/prj:/data
+
+
+volumes:
+    redis:
+    prj:
+
+networks:
+  prj-network:
+    driver: bridge
