@@ -1,10 +1,13 @@
+# coding=utf-8
+
 import math
+import re
 from unittest import TestCase
 
 
 class TestBuiltIns(TestCase):
 	
-	def test_numbers(a):
+	def test_numbers(*args):
 		assert 1 + 1 == 2
 		assert 5 - 2 == 3
 
@@ -20,7 +23,7 @@ class TestBuiltIns(TestCase):
 		assert abs(-111.123) == 111.123
 
 		assert round(math.pi, 2) == 3.14
-		assert round(2.5) == 3
+		assert round(2.5) == 2
 		assert round(1.5) == 2
 		
 		assert math.ceil(2.5) == 3
@@ -49,12 +52,57 @@ class TestBuiltIns(TestCase):
 
 		assert number == 0.78000000000000000000012
 
+	def test_string(*args):
+		"""
+		Описание функции. Док стринг тоже является строкой
+		"""
 
+		assert isinstance('s', str)
+		assert isinstance("s", str)
+		multi_line =  '''
+			Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod 
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+			Duis aute irure dolor in reprehenderit in voluptate velit esse cillum 
+			dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, 
+			sunt in culpa qui officia deserunt mollit anim id est laborum.
+		'''.strip()
+		assert isinstance(multi_line, str)
+		assert isinstance("""s""", str)
+		assert isinstance(str(object), str)
+		assert isinstance(repr(object), str)
 
-	# def test_numbers():
-	# 	base_dict = {}
-	# 	base_list = []
-	# 	base_set = set()
-	# 	base_tuple = (1, 2, 3)
-	# 	base_number = 1
-	# 	base_string = 'Hello world!'
+		# срезы
+		assert multi_line[0] == 'L'
+		assert multi_line[-1] == '.'
+		assert multi_line[::-1][1:8] == ''.join(reversed(multi_line))[1:8] == 'murobal'
+
+		# конкатенация
+		hey = 'hey'
+		students = 'students'
+
+		assert ('hey' ' ' 'students') == 'hey students'
+		assert 'hey' + ' ' + 'students' == 'hey students'
+		assert hey * 2 == 'heyhey'
+		assert (hey < students) == True
+
+		# форматирование строк
+		assert ' '.join(['hey', 'students']) == 'hey students'
+		assert f'{hey} {students}' == 'hey students'
+		assert '{hey} {students}'.format(hey=hey, students=students) == 'hey students'
+		assert '%s %s' %(hey, students) == 'hey students'
+
+		# длина строки
+		assert len(multi_line) == 465
+		assert multi_line.__len__() == 465
+
+		# методы
+		assert 'labore'.capitalize()[0] == multi_line.title()[97] == 'l'.upper() == 'L'
+		assert 'l' == 'L'.lower()
+
+		assert '/some/file/path'.replace('path', 'path.txt') == '/some/file/path.txt'
+		assert re.sub(r'^/[a-z]*/', '/home/', '/some/file/path') == '/home/file/path'
+		assert ''.join([i for i in multi_line if i == 'l']) == 'lllllllllllllllllllll'
+
+		assert 'hey' is 'hey'
+		assert hey == hey
