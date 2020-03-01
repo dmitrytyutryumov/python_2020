@@ -1,5 +1,6 @@
 # coding=utf-8
 
+import collections
 import math
 import re
 from unittest import TestCase
@@ -90,6 +91,8 @@ class TestBuiltIns(TestCase):
 		assert hey == hey
 		assert (hey < students) == True
 
+		assert 'e' in hey
+
 		# форматирование строк
 		assert ' '.join(['hey', 'students']) == 'hey students'
 		assert f'{hey} {students}' == 'hey students'
@@ -113,19 +116,125 @@ class TestBuiltIns(TestCase):
 		'\s\t\n'
 
 	def test_lists(*args):
-		pass
+		list_ex = ['1', 1, {}]
+		list_ex = list_ex + [123]
+		assert list_ex == ['1', 1, {}, 123]
+		list_ex.append(123)
+		assert list_ex == ['1', 1, {}, 123, 123]
+		
+		list_ex.clear()
+		assert list_ex == []
+
+		list_ex = [2]
+		list_ex = list_ex * 2
+		assert list_ex == [2, 2] 	
+		
+		assert list_ex.index(2) == 0
+		assert list_ex[1] == 2
+		list_ex.append(1)
+		assert list_ex[::-1] == [1, 2, 2]
+		list_ex.sort()
+		assert list_ex == [1, 2, 2]
+		list_ex.reverse() 
+		assert list_ex == [2, 2, 1]
+		assert list_ex[1:-1] == [2]
+		assert list_ex.pop() == 1
+		list_ex.extend([1, 2, 3])
+		assert list_ex == [2, 2, 1, 2, 3]
+		list_ex = [i for i in range(0, 5, 2)]
+		assert list_ex == [0, 2, 4]
+
+		assert 0 in list_ex
 
 	def test_sets(*args):
-		pass
+		set_ex = {'1', 1, (1, )}
+		set_ex.add(123)
+		assert set_ex == {'1', 1, (1, ), 123}		
+
+		set_ex.update({1, 2, 3})
+		assert set_ex == {1, '1', 2, 3, (1,), 123}
+		set_ex = set(i for i in range(0, 5, 2))
+		assert set_ex == set(i for i in range(0, 5, 2))
+
+		assert 0 in set_ex
+		set_ex.clear()
+		assert {1, 2, 3, 1, 1, 1, 1} == {1, 2, 3}
 
 	def tests_tuples(*args):
-		pass
+		a = 1, 2, 3, 
+		assert a == tuple([1, 2, 3]) == tuple(i for i in range(1, 4))
+		assert a[1] == a.index(3) == 2
+		assert a[::-1] == (3, 2, 1,) 
 
 	def tests_dicts(*args):
-		pass
+		assert dict(one=1, two=2, three=3) == {'one': 1, 'two': 2, 'three': 3}
+		assert dict([('two', 2), ('one', 1), ('three', 3)]) == dict(zip(['one', 'two', 'three'], [1, 2, 3])) 
+
+		dict_ex = {'one': 1, 'two': 2}
+		assert list(dict_ex) == list(dict_ex.keys()) == ['one', 'two']
+		assert len(dict_ex) == 2
+		assert 'one' in dict_ex
+
+		assert list(dict_ex.values()) == [1, 2]
+		assert dict_ex['one'] == 1  # если ключа нет -- KeyError 
+
+		dict_ex.update({6: 1})
+		assert dict_ex == {6: 1, 'one': 1, 'two': 2}
+		assert dict_ex.pop(6) == 1
+		assert dict_ex.popitem() == ('two', 2)
+		dict_ex.clear()
+		assert dict_ex == {}
+
+		dict_ex[1] = 1
+		assert dict_ex[1] == 1
+		del dict_ex[1]
+		assert dict_ex == {}
+
+		dict_ex = {idx: str(v) for idx, v in enumerate(range(5))}
+		assert dict_ex == {0: '0', 1: '1', 2: '2', 3: '3', 4: '4'}
+
+		dict_ex = collections.OrderedDict(sorted({1: 's', 5: 'a', 2: '5'}.items(), key=lambda x: x[0]))
+		assert dict_ex == collections.OrderedDict([(1, 's'), (2, '5'), (5, 'a')])
+
+		class Cache(dict):
+			def __missing__(self, key):
+				return 0
+
+			def __getitem__(self, item):
+				print('item')
+				value = super(Cache, self).__getitem__(item)
+				return value * 2
+
+			def get(self, k, v=0):
+				value = super(Cache, self).get(k, v)
+				return value * 3
+
+		ex = Cache({1: 1})
+		assert ex[0] == 0
+		assert ex[1] == 2
+		assert ex.get(1) == 3
 
 	def test_bool(*args):
-		pass
+		True is True 
+		False is False
+		assert True == bool({1, }) == bool([1, 2, ]) == bool({1:1})
+		assert False == bool({}) == bool([])
 
-	def test_None(*args):
-		pass
+	def test_files(*args):
+		text = '''
+			Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod 
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+			Duis aute irure dolor in reprehenderit in voluptate velit esse cillum 
+			dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, 
+			sunt in culpa qui officia deserunt mollit anim id est laborum.
+		'''
+		with open('./new_file.txt', 'w') as file:
+			file.write(text)
+
+		with open('./new_file.txt') as file:
+			for line in file.readlines():
+				assert line in text
+			assert file.read() == ''
+			file.seek(0)
+			assert file.read() == text	

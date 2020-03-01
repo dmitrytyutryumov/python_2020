@@ -33,3 +33,7 @@ class Human(object):
 
 def get_public_methods(type_):
 	[print('{}.{}()'.format(type_.__name__, i)) for i in dir(type_) if not i.startswith('__')]
+
+
+if __name__ == '__main__':
+	pass
