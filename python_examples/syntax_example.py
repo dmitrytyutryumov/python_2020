@@ -1,3 +1,5 @@
+# coding=utf-8
+
 from typing import Union
 
 
@@ -31,9 +33,18 @@ class Human(object):
 		return names
 
 
+
 def get_public_methods(type_):
-	[print('{}.{}()'.format(type_.__name__, i)) for i in dir(type_) if not i.startswith('__')]
+	"""
+	Получение публичных аттрибутов	
+	"""
+	return [
+		print('{}.{}()'.format(type_.__name__, i))  # форматириуем строку
+		for i in dir(type_) if not i.startswith('__')
+	]
 
 
 if __name__ == '__main__':
-	pass
+	if get_public_methods(int) == [] and \
+		get_public_methods(float) == []:
+		print('Impossible')
