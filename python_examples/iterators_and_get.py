@@ -20,6 +20,9 @@ class IteratorEx:
 
 
 class GetIter:
+    """
+    генератор считает значения на лету
+    """
     __slots__ = ['container']
 
     def __init__(self, *args):
